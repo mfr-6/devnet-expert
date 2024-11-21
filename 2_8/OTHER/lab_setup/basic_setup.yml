@@ -1,0 +1,27 @@
+---
+
+- name: Enable RESTCONF on nexus device
+  hosts: nexus
+  gather_facts: no
+  connection: "{{ ansible_connection }}"
+
+  tasks:
+  - name: Enable basic features for lab
+    cisco.nxos.nxos_feature:
+      feature: "{{ item }}"
+      state: enabled
+    loop:
+      - nxapi
+      - netconf
+      - restconf
+      #- ospf
+      #- bgp
+  - name: Setup NXAPI
+    cisco.nxos.nxos_nxapi:
+      enable_http: true
+      http_port: 80
+      enable_https: true
+      https_port: 443
+  - name: Save config
+    cisco.nxos.nxos_config:
+      save_when: modified

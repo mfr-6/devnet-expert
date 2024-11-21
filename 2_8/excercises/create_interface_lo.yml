@@ -1,0 +1,7 @@
+---
+- name: Create Loopback interface with roles
+  hosts: sbx_devices
+  gather_facts: false
+
+  roles:
+    - create_loopback

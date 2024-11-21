@@ -1,0 +1,43 @@
+{
+    "native": {
+        "interface": {
+            "{{ ospf.intf_type }}": [
+                {
+                    "name": "{{ ospf.physical_intf_number }}.{{ ospf.subintf_vlan }}",
+                    "encapsulation": {
+                        "dot1Q": {
+                            "vlan-id": "{{ ospf.subintf_vlan }}"
+                        }
+                    },
+                    "ip": {
+                        "address": {
+                            "primary": {
+                                "address": "{{ ospf.intf_ip_addr }}",
+                                "mask": "255.255.255.252"
+                            }
+                        },
+                        "Cisco-IOS-XE-ospf:router-ospf": {
+                            "ospf": {
+                                "mtu-ignore": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "router": {
+            "Cisco-IOS-XE-ospf:router-ospf": {
+                "ospf": {
+                    "process-id": {
+                        "id": "99",
+                        "network": {
+                            "ip": "{{ ospf.intf_ip_addr }}",
+                            "wildcard": "0.0.0.0",
+                            "area": "0"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

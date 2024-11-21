@@ -1,0 +1,91 @@
+module acl-service {
+    namespace "http://mateuszfrak.com/yang/accesslist";
+    prefix "acl";
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+
+    revision 2024-01-22 {
+        description "Initial revision of Accesslist YANG Module.";
+    }
+
+    list accesslist {
+        key name;
+        leaf name {
+            type string {
+                pattern "^[\\S]*";
+            }
+            mandatory true; 
+        }
+        leaf-list device {
+            type string;
+        }
+        container default {
+            leaf rule {
+                type enumeration {
+                    enum deny;
+                    enum permit;
+                }
+                default deny;
+            }
+        }
+
+        list rule {
+            key name; 
+            leaf name {
+                type string;
+            }
+            leaf description {
+                type string;
+            }
+            leaf action {
+                type enumeration {
+                    enum permit;
+                    enum deny;
+                }
+                mandatory true;
+            }
+            leaf protocol {
+                type enumeration {
+                    enum tcp;
+                    enum udp;
+                }
+                mandatory true;
+            }
+            container source {
+                leaf address {
+                    type union {
+                        type inet:ipv4-address;
+                        type inet:ipv4-prefix;
+                    }
+                    mandatory true;
+                }
+                leaf port {
+                    type uint16 {
+                        range 0..65535;
+                    }
+                }
+            }
+
+            container destination {
+                leaf address {
+                    type union {
+                        type inet:ipv4-address;
+                        type inet:ipv4-prefix;
+                    }
+                    mandatory true;
+                }
+                leaf port {
+                    mandatory true;
+                    type uint16 {
+                        range 1..1024;
+                    }
+                }
+            }
+            leaf log {
+                type empty;
+            }
+        }
+    }
+}

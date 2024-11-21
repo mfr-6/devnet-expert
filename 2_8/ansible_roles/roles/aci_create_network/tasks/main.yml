@@ -1,0 +1,42 @@
+
+- name: Declare login data
+  set_fact:
+    aci_log_data: &aci_login_data
+      hostname: "{{ apic_host }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: "{{ apic_validate_certs }}"
+- name: Get current date
+  ansible.builtin.shell: date
+  register: current_date
+  delegate_to: localhost
+    # - name: Print registered date
+    #   ansible.builtin.debug:
+    #     var: current_date.stdout
+- name: Create tenants
+  cisco.aci.aci_tenant:
+    <<: *aci_login_data
+    tenant: "{{ item.tenant_name }}"
+    description: "Created with ansible by mfr {{ current_date.stdout }}"
+    state: present
+  delegate_to: localhost
+  loop: "{{ networks }}"
+- name: Create vrfs
+  cisco.aci.aci_vrf:
+    <<: *aci_login_data
+    vrf: "{{ item.vrf_name }}"
+    tenant: "{{ item.tenant_name }}"
+    descr: "Created with ansible by mfr {{ current_date.stdout }}"
+    state: present
+  delegate_to: localhost
+  loop: "{{ networks }}"
+- name: Create BridgeDomains
+  cisco.aci.aci_bd:
+    <<: *aci_login_data
+    tenant: "{{ item.0.tenant_name }}"
+    bd: "{{ item.1.bd_name }}"
+    vrf: "{{ item.0.vrf_name }}"
+    description: "Created with ansible by mfr {{ current_date.stdout }}"
+    state: present
+  delegate_to: localhost
+  loop: "{{ networks|subelements('bds') }}"

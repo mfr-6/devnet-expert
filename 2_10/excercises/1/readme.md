@@ -1,0 +1,3 @@
+- create standard ACL that matches the network 192.0.2.0 and wildcard 0.0.0.255
+- create NSO template using ncs_cli to accomplish this
+- apply config to IOS-XE

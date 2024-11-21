@@ -1,0 +1,85 @@
+module accesslist {
+    namespace "http://mateuszfrak.com/yang/accesslist";
+    prefix "acl";
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+
+    revision 2024-01-22 {
+        description "Initial revision of Accesslist YANG Module.";
+    }
+
+    container accesslists {
+        list accesslist {
+            key name;
+            leaf name {
+                type string {
+                    pattern "^[\\S]*";
+                }
+                mandatory true; 
+            }
+            leaf description {
+                type string;
+            }
+            leaf source {
+                type union {
+                    type inet:ipv4-address;
+                    type inet:ipv4-prefix;
+                }
+                mandatory true;
+            }
+
+            leaf source_proto {
+                type enumeration {
+                    enum tcp;
+                    enum udp;
+                }
+                mandatory true;
+            }
+
+            leaf source_port {
+                type string {
+                    pattern "1..65535";
+                }
+                mandatory true;
+            }
+
+            leaf destination {
+                type union {
+                    type inet:ipv4-address;
+                    type inet:ipv4-prefix;
+                }
+                mandatory true;
+            }
+
+            leaf destination_proto {
+                type enumeration {
+                    enum tcp;
+                    enum udp;
+                }
+                mandatory true;
+            }
+
+            leaf destination_port {
+                type string {
+                    pattern "1..1024";
+                }
+                mandatory true;
+            }
+
+            leaf action {
+                type enumeration {
+                    enum permit;
+                    enum deny;
+                }
+                mandatory true;
+            }
+
+            leaf log {
+                type boolean;
+
+            }
+        }
+    }
+}

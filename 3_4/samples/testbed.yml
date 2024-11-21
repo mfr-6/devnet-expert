@@ -1,0 +1,31 @@
+testbed:
+  name: CML-TESTBED
+devices:
+  xe1:
+    type: iosxe
+    os: iosxe
+    platform: cat8k
+    credentials:
+      default:
+        username: expert
+        password: 1234QWer!
+      enable:
+        password: 1234QWer!
+    connections:
+      cli:
+        protocol: ssh
+        ip: 192.168.8.201
+  nx1:
+    type: nxos
+    os: nxos
+    platform: nxosv
+    credentials:
+      default:
+        username: expert
+        password: 1234QWer!
+      enable:
+        password: 1234QWer!
+    connections:
+      cli:
+        protocol: ssh
+        ip: 192.168.8.203

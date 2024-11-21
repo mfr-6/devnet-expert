@@ -1,0 +1,9 @@
++++ xe1 with alias 'cli': executing command 'show ip interface brief' +++
+show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       192.168.8.201   YES TFTP   up                    up      
+GigabitEthernet2       10.1.1.1        YES manual up                    up      
+GigabitEthernet3       unassigned      YES unset  administratively down down    
+GigabitEthernet4       unassigned      YES unset  up                    up      
+Loopback0              1.1.1.1         YES manual up                    up      
+xe1#

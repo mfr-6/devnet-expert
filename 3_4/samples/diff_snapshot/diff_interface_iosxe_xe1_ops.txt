@@ -1,0 +1,9 @@
+--- inital_snapshot/interface_iosxe_xe1_ops.txt
++++ after_change_snapshot/interface_iosxe_xe1_ops.txt
+ info:
+  GigabitEthernet4:
+-  enabled: False
++  enabled: True
+-  oper_status: down
++  oper_status: up
++  description: PYATS

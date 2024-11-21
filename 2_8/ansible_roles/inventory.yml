@@ -1,0 +1,27 @@
+all:
+  hosts:
+    sandbox_apic:
+      apic_host: sandboxapicdc.cisco.com
+      apic_password: "!v3G@!4@Y"
+    sandbox_reserved_apic:
+      apic_host: 10.10.20.14
+      apic_password: "x"
+  vars:
+    apic_use_proxy: false
+    apic_validate_certs: false
+    apic_username: admin
+    tenants:
+      - "A_mfr_ansi1"
+      - "A_mfr_ansi2"
+      - "A_mfr_ansi3"
+    networks:
+      - tenant_name: "A_mfr1"
+        vrf_name: "A_mfr1_vrf1"
+        bds:
+          - bd_name: "A_mfr1_vrf1_bd1"
+          - bd_name: "A_mfr1_vrf1_bd2"
+      - tenant_name: "A_mfr2"
+        vrf_name: "A_mfr2_vrf1"
+        bds:
+          - bd_name: "A_mfr2_vrf1_bd1"
+          - bd_name: "A_mfr2_vrf1_bd2"

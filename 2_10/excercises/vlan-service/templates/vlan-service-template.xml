@@ -1,0 +1,69 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+                 servicepoint="vlan-service">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <!--
+          Select the devices from some data structure in the service
+          model. In this skeleton the devices are specified in a leaf-list.
+          Select all devices in that leaf-list:
+      -->
+      <name>{/device/name}</name>
+      <config>
+        <vlan xmlns="urn:ios">
+          <vlan-list>
+            <id>{/vlan-id}</id>
+          </vlan-list>
+        </vlan>
+        <?foreach {interface}?>
+          <interface xmlns="urn:ios">
+            <?if {intf-type='FastEthernet'}?>
+              <FastEthernet>
+                <name>{intf-id}</name>
+                <switchport>
+                  <mode>
+                    <access/>
+                  </mode>
+                  <access>
+                    <vlan>{/vlan-id}</vlan>
+                  </access>
+                </switchport>
+              </FastEthernet>
+            <?end?>
+            <?if {intf-type='GigabitEthernet'}?>
+              <GigabitEthernet>
+                <name>{intf-id}</name>
+                <switchport>
+                  <mode>
+                    <access/>
+                  </mode>
+                  <access>
+                    <vlan>{/vlan-id}</vlan>
+                  </access>
+                </switchport>
+              </GigabitEthernet>
+            <?end?>
+          </interface>
+        <?end?>
+        <!-- nxos -->
+        <vlan xmlns="http://tail-f.com/ned/cisco-nx">
+          <vlan-list>
+            <id>{/vlan-id}</id>
+          </vlan-list>
+        </vlan>
+        <?foreach {interface}?>
+          <interface xmlns="http://tail-f.com/ned/cisco-nx">
+            <Ethernet>
+              <name>1/{intf-id}</name>
+              <switchport>
+                <mode>access</mode>
+                <access>
+                  <vlan>1000</vlan>
+                </access>
+              </switchport>
+            </Ethernet>
+          </interface>
+        <?end?>
+      </config>
+    </device>
+  </devices>
+</config-template>

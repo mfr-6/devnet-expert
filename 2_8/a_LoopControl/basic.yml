@@ -1,0 +1,49 @@
+---
+
+- name: Creating Tenant
+  hosts: sandbox_apic
+  gather_facts: false
+
+  vars:
+    aci_log_data: &aci_login_data
+      hostname: "{{ apic_host }}"
+      username: "{{ apic_username }}"
+      password: "{{ apic_password }}"
+      validate_certs: "{{ apic_validate_certs }}"
+
+
+  tasks:
+  - name: Get current date
+    ansible.builtin.shell: date
+    register: current_date
+    delegate_to: localhost
+  # - name: Print gathered date
+  #   ansible.builtin.debug:
+  #     var: current_date
+  - name: Create tenants
+    cisco.aci.aci_tenant:
+      <<: *aci_login_data
+      tenant: "{{ item }}"
+      description: "Created with ansible {{ current_date.stdout }}"
+      state: present
+    delegate_to: localhost
+    loop: "{{ tenants }}"
+  - name: Check description for tenant mfr_ansi1
+    cisco.aci.aci_tenant:
+      <<: *aci_login_data
+      tenant: mfr_ansi1
+      state: query
+    register: tenant
+    delegate_to: localhost
+  - name: Print collected description
+    ansible.builtin.debug:
+      var: tenant.current[0].fvTenant.attributes.descr
+  # - name: Query Tenant
+  #   cisco.aci.aci_tenant:
+  #     <<: *aci_login_data
+  #     state: query
+  #   register: tenants
+  #   delegate_to: localhost
+  # - name: Print amount of configured tenants
+  #   debug:
+  #     var: "{{ tenants.current | count }}"

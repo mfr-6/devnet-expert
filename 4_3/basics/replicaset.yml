@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-rs
+  labels:
+    appid: "1111"
+
+spec:
+  template:
+    metadata:
+      name: nginx-webapp
+      labels:
+        appid: "1111"
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+  replicas: 10
+  selector:
+    matchLabels:
+      appid: "1111"

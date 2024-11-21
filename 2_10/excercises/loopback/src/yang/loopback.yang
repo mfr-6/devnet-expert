@@ -1,0 +1,56 @@
+module loopback {
+  namespace "http://com/example/loopback";
+  prefix loopback;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+
+  list loopback {
+    key name;
+
+    uses ncs:service-data;
+    ncs:servicepoint "loopback";
+
+    leaf name {
+      type string;
+    }
+
+    // may replace this with other ways of refering to the devices.
+    leaf-list device {
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+
+    leaf int-number {
+      type uint32 {
+        range "0..2147483647";
+      }
+      mandatory true;
+    }
+
+    leaf descr {
+      tailf:info "tailf:info - put description here";
+      type string;
+    }
+
+    leaf ip-addr {
+      tailf:info "Valid range: 192.168.0.0-192.168.255.255";
+      type inet:ipv4-address;
+      mandatory true;
+      
+    }
+
+    leaf subnet-mask {
+      type inet:ipv4-address;
+      mandatory true;
+    }
+  }
+}

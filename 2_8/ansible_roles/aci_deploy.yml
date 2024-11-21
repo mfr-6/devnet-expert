@@ -1,0 +1,7 @@
+---
+- name: Deploy configuration to ansible
+  hosts: sandbox_apic
+  gather_facts: false
+
+  roles:
+    - aci_create_network

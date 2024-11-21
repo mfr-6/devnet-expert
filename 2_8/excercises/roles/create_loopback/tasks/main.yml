@@ -1,0 +1,12 @@
+- name: Create Interface Loopback999
+  cisco.ios.ios_interfaces:
+    config:
+      - name: Loopback999
+        description: Configured using ansible
+        enabled: true
+- name: Configure Interface Loopback999
+  cisco.ios.ios_l3_interfaces:
+    config:
+      - name: Loopback999
+        ipv4:
+          - address: 1.2.3.4/32

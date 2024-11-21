@@ -1,0 +1,45 @@
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native">
+    <interface>
+      <{{ intf_type }}>
+        <name>{{ physical_intf_number }}</name>
+        <shutdown xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="delete"/>
+      </{{ intf_type }}>
+      <{{ intf_type }}>
+        <name>{{ physical_intf_number }}.{{ subintf_vlan }}</name>
+        <encapsulation>
+          <dot1Q>
+            <vlan-id>{{ subintf_vlan }}</vlan-id>
+          </dot1Q>
+        </encapsulation>
+        <ip>
+          <address>
+            <primary>
+              <address>{{ intf_ip_addr }}</address>
+              <mask>255.255.255.252</mask>
+            </primary>
+          </address>
+          <router-ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+            <ospf>
+              <mtu-ignore>true</mtu-ignore>
+            </ospf>
+          </router-ospf>
+        </ip>
+      </{{ intf_type }}>
+    </interface>
+    <router>
+      <router-ospf xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-ospf">
+        <ospf>
+          <process-id xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" nc:operation="create">
+            <id>99</id>
+            <network>
+              <ip>{{ intf_ip_addr }}</ip>
+              <wildcard>0.0.0.0</wildcard>
+              <area>0</area>
+            </network>
+          </process-id>
+        </ospf>
+      </router-ospf>
+    </router>
+  </native>
+</config>

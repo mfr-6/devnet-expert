@@ -1,0 +1,23 @@
+module switch {
+  namespace "http://mateuszfrak.com/switch";
+  prefix "sw";
+
+  container switch {
+    leaf hostname {
+      type string;
+    }
+
+    list interface {
+      key name;
+      leaf name {
+        type string;
+      }
+      leaf description {
+        type string;
+      }
+      leaf speed {
+        type uint32;
+      }
+    }
+  }
+}
